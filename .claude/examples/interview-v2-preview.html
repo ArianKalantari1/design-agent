@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview — Voiceprint</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-primary': '#2B6349',
+            'brand-bg': '#F8F7F4',
+            'brand-surface': '#FFFFFF',
+            'brand-text': '#1A1917',
+            'brand-muted': '#9B9690',
+            'brand-accent': '#C4722A',
+            'brand-border': '#E5E2DB',
+          },
+          fontFamily: {
+            'heading': ['Fraunces', 'Georgia', 'serif'],
+            'body': ['DM Sans', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    .font-heading, h1, h2 { font-family: 'Fraunces', Georgia, serif; }
+
+    /* Recording pulse ring */
+    @keyframes ping-slow {
+      0% { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(1.65); opacity: 0; }
+    }
+    @keyframes ping-slow2 {
+      0% { transform: scale(1); opacity: 0.25; }
+      100% { transform: scale(2.1); opacity: 0; }
+    }
+    .pulse-ring-1 { animation: ping-slow 1.8s ease-out infinite; }
+    .pulse-ring-2 { animation: ping-slow2 1.8s ease-out 0.4s infinite; }
+
+    /* Waveform bars */
+    @keyframes wave1 { 0%,100%{height:6px} 50%{height:22px} }
+    @keyframes wave2 { 0%,100%{height:10px} 50%{height:32px} }
+    @keyframes wave3 { 0%,100%{height:18px} 50%{height:40px} }
+    @keyframes wave4 { 0%,100%{height:8px} 50%{height:28px} }
+    @keyframes wave5 { 0%,100%{height:14px} 50%{height:36px} }
+    .bar1{animation:wave1 0.9s ease-in-out infinite}
+    .bar2{animation:wave2 0.9s ease-in-out 0.1s infinite}
+    .bar3{animation:wave3 0.9s ease-in-out 0.2s infinite}
+    .bar4{animation:wave4 0.9s ease-in-out 0.3s infinite}
+    .bar5{animation:wave5 0.9s ease-in-out 0.15s infinite}
+    .bar6{animation:wave2 0.9s ease-in-out 0.25s infinite}
+    .bar7{animation:wave1 0.9s ease-in-out 0.05s infinite}
+
+    /* Transcript fade in */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .transcript-word { animation: fadeUp 0.3s ease-out forwards; }
+
+    /* Cursor blink */
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor { animation: blink 1s step-end infinite; }
+  </style>
+</head>
+<body class="bg-brand-bg min-h-screen flex flex-col">
+
+  <!-- Nav -->
+  <nav class="border-b border-brand-border bg-brand-surface">
+    <div class="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
+      <span class="font-heading text-brand-text text-lg font-semibold">Voiceprint</span>
+      <button class="text-brand-muted text-sm font-medium hover:text-brand-text transition-all duration-200">
+        Save & exit
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="flex-1 max-w-2xl mx-auto w-full px-6 py-12 md:py-16 flex flex-col">
+
+    <!-- Context + progress -->
+    <div class="flex items-center justify-between mb-12">
+      <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-surface border border-brand-border text-brand-accent text-sm font-medium">
+        AI in Production
+      </span>
+      <span class="text-brand-muted text-sm">3 of 5</span>
+    </div>
+
+    <!-- Question -->
+    <div class="mb-12 md:mb-16">
+      <h1 class="font-heading text-brand-text text-2xl md:text-3xl font-semibold leading-snug">
+        What did you learn that you wouldn't have predicted?
+      </h1>
+    </div>
+
+    <!-- Recording button — the primary interaction -->
+    <div class="flex flex-col items-center mb-10">
+
+      <!-- Pulse rings + mic button -->
+      <div class="relative flex items-center justify-center mb-8">
+        <!-- Outer rings (visible when recording) -->
+        <div class="absolute w-20 h-20 rounded-full bg-brand-primary pulse-ring-1"></div>
+        <div class="absolute w-20 h-20 rounded-full bg-brand-primary pulse-ring-2"></div>
+
+        <!-- Mic button -->
+        <button
+          class="relative w-20 h-20 rounded-full bg-brand-primary flex items-center justify-center shadow-md hover:bg-[#245538] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-primary focus-visible:outline-none"
+          aria-label="Recording in progress — tap to stop"
+        >
+          <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Live waveform -->
+      <div class="flex items-center gap-[3px] h-10 mb-3" aria-hidden="true">
+        <div class="bar1 w-[3px] rounded-full bg-brand-primary opacity-60"></div>
+        <div class="bar2 w-[3px] rounded-full bg-brand-primary opacity-70"></div>
+        <div class="bar3 w-[3px] rounded-full bg-brand-primary opacity-90"></div>
+        <div class="bar4 w-[3px] rounded-full bg-brand-primary opacity-75"></div>
+        <div class="bar5 w-[3px] rounded-full bg-brand-primary"></div>
+        <div class="bar6 w-[3px] rounded-full bg-brand-primary opacity-80"></div>
+        <div class="bar7 w-[3px] rounded-full bg-brand-primary opacity-65"></div>
+        <div class="bar3 w-[3px] rounded-full bg-brand-primary opacity-90 ml-1"></div>
+        <div class="bar1 w-[3px] rounded-full bg-brand-primary opacity-55"></div>
+        <div class="bar5 w-[3px] rounded-full bg-brand-primary opacity-85"></div>
+        <div class="bar2 w-[3px] rounded-full bg-brand-primary opacity-70"></div>
+        <div class="bar4 w-[3px] rounded-full bg-brand-primary opacity-75"></div>
+        <div class="bar3 w-[3px] rounded-full bg-brand-primary"></div>
+        <div class="bar6 w-[3px] rounded-full bg-brand-primary opacity-80"></div>
+        <div class="bar1 w-[3px] rounded-full bg-brand-primary opacity-60 ml-1"></div>
+        <div class="bar5 w-[3px] rounded-full bg-brand-primary opacity-90"></div>
+        <div class="bar2 w-[3px] rounded-full bg-brand-primary opacity-70"></div>
+        <div class="bar4 w-[3px] rounded-full bg-brand-primary opacity-65"></div>
+        <div class="bar3 w-[3px] rounded-full bg-brand-primary opacity-85"></div>
+        <div class="bar7 w-[3px] rounded-full bg-brand-primary opacity-75"></div>
+      </div>
+
+      <p class="text-brand-muted text-sm">Recording · tap to stop</p>
+    </div>
+
+    <!-- Live transcript — words appearing as you speak -->
+    <div class="bg-brand-surface border border-brand-border rounded-md p-5 flex-1 min-h-[120px]">
+      <p class="text-brand-text text-base leading-relaxed">
+        <span class="transcript-word">Honestly,</span>
+        <span class="transcript-word"> the thing I didn't expect</span>
+        <span class="transcript-word"> was how much the team</span>
+        <span class="transcript-word"> resistance came from</span>
+        <span class="transcript-word"> <em class="not-italic text-brand-muted">pride</em></span>
+        <span class="transcript-word"> in the old system.</span>
+        <span class="transcript-word"> We had built something</span>
+        <span class="transcript-word"> that worked.</span>
+        <span class="transcript-word"> And throwing it away</span>
+        <span class="transcript-word"> felt like admitting</span>
+        <span class="transcript-word"> it wasn't good enough</span>
+        <span class="cursor text-brand-primary font-light">|</span>
+      </p>
+    </div>
+
+  </main>
+
+</body>
+</html>
