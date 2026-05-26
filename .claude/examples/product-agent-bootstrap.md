@@ -93,6 +93,20 @@ Writes: product-spec.md (consumed by design-agent's design-brief skill)
 - design-agent (reads product-spec.md to make grounded visual decisions)
 - build-agent (future — reads both product-spec.md and design-spec.md)
 
+## Builds on (install these before using)
+These existing Claude Code skill collections were researched and selected as the
+methodological foundation. The product-agent's custom skills orchestrate them —
+they do not reinvent what these libraries already do well.
+
+| Repo | Stars | What it provides |
+|---|---|---|
+| deanpeters/Product-Manager-Skills | 4.5k | PRD, personas, journey mapping, competitive analysis, validation — all with named frameworks (Nielsen Norman, Jeff Patton, Mom Test, Geoffrey Moore) |
+| phuryn/pm-skills | 11.6k | pre-mortem, job-stories, test-scenarios, competitor-analysis |
+| ferdinandobons/startup-skill | 317 | Competitive battle cards, pricing landscape, feature matrices |
+| anthropics/knowledge-work-plugins | Official | /competitive-brief — Anthropic-maintained competitive research |
+| takechanman1228/claude-persona | 23 | Simulated concept interviews across a persona panel |
+| johnnychauvet/prd-skill | 2 | JTBD output format ("When [situation], I want to [motivation]") — designed for build-agent handoff |
+
 ## Iteration log
 - V1 — Three core skills: product-brief, product-review, product-flow.
 ```
@@ -130,8 +144,56 @@ Its job is to define what the product does, not how it looks.
 | product-review | Built (V1) |
 | product-flow | Built (V1) |
 
+## External skills installed (foundations)
+These are installed alongside the custom skills and called from within them.
+Do not duplicate their functionality — orchestrate them.
+
+### deanpeters/Product-Manager-Skills
+Core PM methodology. Provides: proto-persona, discovery-interview-prep,
+write-prd, press-release, customer-journey-map, user-story-mapping,
+lean-ux-canvas, pol-probe, company-research, tam-sam-som-calculator,
+positioning-statement. Install instructions in that repo's README.
+
+### phuryn/pm-skills
+Supplementary. Key skills used: pre-mortem (for product-review),
+job-stories (JTBD format for product-spec output), test-scenarios.
+
+### ferdinandobons/startup-skill
+Used only when competitive analysis is needed in product-brief.
+Key command: /startup:startup-competitors
+
+### anthropics/knowledge-work-plugins (marketing plugin)
+Used for /competitive-brief in the research phase of product-brief.
+Official Anthropic repo — reliable and maintained.
+
+### takechanman1228/claude-persona
+Used when concept validation is needed. Runs simulated interviews
+across a persona panel — unique capability not in other toolkits.
+
+### johnnychauvet/prd-skill
+JTBD output framing for product-spec.md sections. Use its format
+for user story sections to ensure clean build-agent handoff.
+
+## Skills to add later
+
+### Agentic validation (V2)
+Connect product-review to real user interviews via a scheduling tool.
+Instead of simulated personas, route validation questions to actual users
+and ingest their responses back into the spec.
+
+### PRD drift detection (V2)
+DarrenBenson/sdlc-studio has a /reconcile command that detects when
+built code has drifted from the original PRD. Valuable once build-agent
+is in the pipeline — ensures what gets built matches what was specced.
+
+### Orchestrator layer (V3)
+An orchestrator agent that takes a raw idea, runs product-brief,
+then hands product-spec.md to design-agent, then hands both specs to
+build-agent. The founder only re-enters at decision points. This is the
+"idea to shipped product" pipeline.
+
 ## Iteration log
-- V1 — Frame created. Three core skills built.
+- V1 — Frame created. Three core skills built. External skill foundations researched and documented.
 ```
 
 ---
@@ -155,6 +217,22 @@ User runs /product-brief or asks to define, spec, or validate a product idea.
 - Challenge before accepting. If a scope decision seems too large for V1,
   name the concern before writing it into the spec.
 - After all questions are answered, write the spec without further questions.
+
+---
+
+## Leverages
+- **deanpeters/Product-Manager-Skills:** use `proto-persona` for persona
+  definition, `discovery-interview-prep` (Mom Test style) to frame Q1,
+  `write-prd` for the final spec structure, `company-research` and
+  `tam-sam-som-calculator` if market sizing is needed
+- **anthropics/knowledge-work-plugins:** use `/competitive-brief` when
+  the founder names competitors in Q1 or Q2
+- **takechanman1228/claude-persona:** use after Q1 if the target user
+  is ambiguous — run a simulated concept interview across 3 personas
+  before proceeding to Q2
+- **johnnychauvet/prd-skill:** use its JTBD format ("When [situation],
+  I want to [motivation], so I can [outcome]") for all user story sections
+  in the output spec
 
 ---
 
@@ -265,6 +343,16 @@ Check whether product-spec.md exists in the project root.
 
 ---
 
+## Leverages
+- **deanpeters/Product-Manager-Skills:** use `lean-ux-canvas` to validate
+  the problem-solution fit before checking screen definitions; use `pol-probe`
+  to stress-test assumptions in the spec
+- **phuryn/pm-skills:** use `pre-mortem` — ask "what would make this product
+  fail in 6 months?" and surface those risks as Blocking findings; use
+  `test-scenarios` to check whether acceptance criteria are testable
+
+---
+
 ## Input
 Ask: "Paste the spec you want reviewed, or should I read product-spec.md?"
 Accept either.
@@ -325,6 +413,18 @@ User runs /product-flow or asks to map, diagram, or detail user flows.
 Check whether product-spec.md exists.
 - If it does not exist: stop and say "Run product-brief first."
 - If it exists: read it fully before proceeding.
+
+---
+
+## Leverages
+- **deanpeters/Product-Manager-Skills:** use `customer-journey-map` (Nielsen
+  Norman Group framework) for the emotional arc of each flow — stages,
+  touchpoints, pain points; use `user-story-mapping` (Jeff Patton) to
+  organise flows by user activity across the backbone
+- **phuryn/pm-skills:** use `job-stories` format ("When [situation], I want
+  to [motivation], so I can [outcome]") for every step in the journey map
+  rather than plain action descriptions — this keeps the focus on user intent,
+  not system behaviour
 
 ---
 
@@ -412,11 +512,20 @@ product-flow.md
 
 ## After creating all files
 
-1. Read these repositories for any relevant product management, user story, or
-   requirements tooling worth noting in the "Skills to add later" section of CLAUDE.md:
-   - Search GitHub for Claude Code skills related to: product spec, user story
-     generation, PRD writing, requirements validation
-   - Note anything worth integrating in V2
+1. Install the external skill foundations in the new repo. For each of the
+   following, clone or copy the relevant skill files into .claude/skills/ or
+   follow the install instructions in each repo's README:
+
+   - github.com/deanpeters/Product-Manager-Skills (primary foundation — install first)
+   - github.com/phuryn/pm-skills (install: pre-mortem, job-stories, test-scenarios)
+   - github.com/ferdinandobons/startup-skill (install: startup-competitors command only)
+   - github.com/anthropics/knowledge-work-plugins/marketing (install: competitive-brief)
+   - github.com/takechanman1228/claude-persona (install all — small footprint)
+   - github.com/johnnychauvet/prd-skill (reference only — use its JTBD output format)
+
+   Do NOT install skills that duplicate what the custom skills already do.
+   These are foundations to call from within product-brief, product-review,
+   and product-flow — not replacements for them.
 
 2. Initialise git, make an initial commit with message:
    "feat: bootstrap product-agent with three core skills"
