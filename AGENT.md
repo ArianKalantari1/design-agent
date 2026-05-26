@@ -32,5 +32,6 @@ None. Standalone agent.
 - **V3.5** — "Steal like an artist" pipeline: computer use visits Q4 reference products, extracts real design tokens, grounds the spec in actual data.
 
 ## Iteration log
+- 2026-05-26 (V1.2) — product-spec.md integration: all three skills now read product-spec.md in pre-flight. design-brief skips questions already answered. design-screen enforces Interaction Model Declaration per screen. design-review adds Section 0 product fidelity check (High priority mismatches).
 - 2026-05-26 (V1.1) — 12 fixes: colour system expanded to 7 tokens, radius/shadow conventions added (adjective-derived), mode decision, spacing system, icon library, 4th component library option, mobile-first, accessibility, screenshot input, UX concerns section, minimal .gitignore.
 - 2026-05-25 (V1) — Frame created. Three core skills: design-brief, design-screen, design-review.

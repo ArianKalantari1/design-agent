@@ -8,11 +8,16 @@ User runs `/design-review` or asks to audit, review, or check an existing screen
 
 ## Pre-flight check
 
-Before doing anything else, check whether `design-spec.md` exists in the project root.
+Before doing anything else:
 
-- **If it does not exist:** Stop immediately and say:
-  > "Run design-brief first to create a design spec."
-- **If it exists:** Read it fully before proceeding.
+1. Check whether `design-spec.md` exists in the project root.
+   - **If it does not exist:** Stop immediately and say:
+     > "Run design-brief first to create a design spec."
+   - **If it exists:** Read it fully before proceeding.
+
+2. Check whether `product-spec.md` exists in the project root.
+   - **If it exists:** Read it fully. Note the screen inventory and each screen's Interaction Model Declaration. This enables Section 0 below.
+   - **If it does not exist:** Skip Section 0 — proceed directly to Section 1.
 
 ---
 
@@ -29,9 +34,26 @@ When reviewing from a screenshot: describe what you observe visually before audi
 
 ---
 
-## Output: Four sections
+## Output: Sections 0–4 (Section 0 only if product-spec.md exists)
 
 Vague feedback is not allowed. Every finding must name the element, the current value, and the replacement value.
+
+---
+
+### Section 0 — Product Fidelity Check
+
+Before auditing visual quality, check whether the screen matches what product-spec.md declared for it. Every screen in product-spec.md should have an Interaction Model Declaration (voice, text entry, read-only, selection, review+edit, navigate).
+
+For each mismatch between what was declared and what was built:
+- **Screen:** name the screen being reviewed
+- **Declared model:** what product-spec.md says the primary interaction is
+- **Observed model:** what the screen actually implements
+- **Mismatch:** describe the conflict in one sentence
+- **Fix direction:** what needs to change to align with the declared model
+
+**Example:** product-spec.md declares "Interview screen — interaction model: voice recording." The screen implements a text area as the primary input. Fix: replace text area with a voice recording interface; text input is a secondary fallback only.
+
+Product fidelity failures are always **High** priority — they mean the screen is building the wrong product, not just building it badly. Carry every Section 0 finding into Section 4 as High priority.
 
 ---
 
@@ -93,7 +115,7 @@ Common UX concerns to look for:
 
 ### Section 4 — Prioritised Fix List
 
-All findings from Sections 1, 2, and 3 combined and ordered by impact. Each item must include:
+All findings from Sections 0, 1, 2, and 3 combined and ordered by impact. Each item must include:
 - **Priority:** High / Medium / Low
 - **What to change:** element and property
 - **Why:** one sentence referencing the spec, a UX principle, or user impact

@@ -49,5 +49,6 @@ Connect to Figma via MCP to pull component specs, spacing tokens, and colour val
 V2 use: add a `design-brief --from-figma <url>` mode that reads an existing design system instead of running the interview.
 
 ## Iteration log
+- 2026-05-26 (V1.2) — product-spec.md integration: design-brief pre-flight now reads product-spec.md and skips Q1/Q2 if already answered; design-screen pre-flight reads product-spec.md and enforces the screen's Interaction Model Declaration before scaffolding; design-review gains Section 0 (product fidelity check) that flags interaction model mismatches as High priority.
 - 2026-05-26 (V1.1) — 12 fixes applied: colour system expanded to 7 tokens (added text, border), border-radius convention added (adjective-derived, 3-level), shadow/elevation system added (adjective-derived), mode decision added, spacing system added to spec output, icon library section added, fourth component library option added (shadcn/ui only), mobile-first declared in design-screen, accessibility section added to design-screen, screenshots accepted in design-review, UX concerns section added to design-review (Section 3), .gitignore replaced with minimal version.
 - 2026-05-25 (V1) — Frame created. Three core skills built.

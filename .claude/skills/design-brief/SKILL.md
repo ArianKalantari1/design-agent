@@ -14,6 +14,28 @@ User runs `/design-brief` or asks to create a design spec / design brief.
 
 ---
 
+## Pre-flight check
+
+Before starting the interview, check whether `product-spec.md` exists in the project root.
+
+- **If it does not exist:** Proceed with all five questions below.
+- **If it exists:** Read it fully. Note which of the following are already defined:
+  - Product name and description
+  - Target user
+  - Core action / primary task
+  - Screen inventory and Interaction Model Declaration per screen
+  - Mode preference (if stated)
+  - User flows and non-goals
+
+Then adapt the interview:
+- **Skip Q1** if product-spec.md fully defines the product and user. Open with one sentence summarising what you read: "I've read product-spec.md — [one sentence]. Does that match how you'd describe it?" Then move directly to the first unanswered question.
+- **Skip Q2** if the core action is defined in product-spec.md — carry it forward silently into the spec output.
+- **Always ask Q3, Q4, Q5** — these are visual and tonal questions that product-spec.md does not answer.
+
+Do not recite product-spec.md back to the user. Summarise in one sentence what you're skipping, then continue.
+
+---
+
 ## Interview — Five Questions (one per turn)
 
 **Q1:** What does this product do and who uses it?

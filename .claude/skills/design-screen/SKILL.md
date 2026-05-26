@@ -8,11 +8,17 @@ User runs `/design-screen` or asks to design, spec, or scaffold a specific scree
 
 ## Pre-flight check
 
-Before doing anything else, check whether `design-spec.md` exists in the project root.
+Before doing anything else:
 
-- **If it does not exist:** Stop immediately and say:
-  > "Run design-brief first to create a design spec."
-- **If it exists:** Read it fully before proceeding.
+1. Check whether `design-spec.md` exists in the project root.
+   - **If it does not exist:** Stop immediately and say:
+     > "Run design-brief first to create a design spec."
+   - **If it exists:** Read it fully before proceeding.
+
+2. Check whether `product-spec.md` exists in the project root.
+   - **If it exists:** Read it fully. Before generating the scaffold for any named screen, locate that screen's **Interaction Model Declaration** in product-spec.md. The interaction model defines the primary input mechanism for that screen — voice, text entry, read-only, selection, review+edit, or navigate. The scaffold must match this model. If the user's screen description conflicts with the declared model, flag it:
+     > "product-spec.md declares this screen as [model]. Your description suggests [other model]. Which should the scaffold follow?"
+   - **If it does not exist:** Proceed using the screen description the user provides.
 
 ---
 
