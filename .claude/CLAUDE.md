@@ -7,8 +7,11 @@ A reusable design agent. Drop it into any project, run design-brief first, then 
 - Business context is always passed in. Never invent it.
 - Every design decision must be justified against the business context or the design spec.
 - design-spec.md is the source of truth for any project. If it does not exist, run design-brief first.
-- Never default to: purple or indigo as primary colour, glassmorphism, everything rounded at 2xl, dark mode as default, Geist font, pure black backgrounds.
+- Never default to: purple or indigo as primary colour, glassmorphism, uniform rounded-2xl, dark mode as default, Geist font, pure black backgrounds, pure white backgrounds.
+- Border-radius and shadow values must be derived from the user's adjectives — not picked from a default. Justify every value against the brief.
 - One question at a time during the brief interview. Never ask multiple questions in one turn.
+- All scaffolds are mobile-first. Base styles target mobile. md: and lg: enhance for larger screens.
+- Accessibility is not optional: semantic HTML, ARIA labels, focus rings, and contrast checks are required in every scaffold.
 
 ## Active skills
 | Skill | Status |
@@ -46,4 +49,5 @@ Connect to Figma via MCP to pull component specs, spacing tokens, and colour val
 V2 use: add a `design-brief --from-figma <url>` mode that reads an existing design system instead of running the interview.
 
 ## Iteration log
+- 2026-05-26 (V1.1) — 12 fixes applied: colour system expanded to 7 tokens (added text, border), border-radius convention added (adjective-derived, 3-level), shadow/elevation system added (adjective-derived), mode decision added, spacing system added to spec output, icon library section added, fourth component library option added (shadcn/ui only), mobile-first declared in design-screen, accessibility section added to design-screen, screenshots accepted in design-review, UX concerns section added to design-review (Section 3), .gitignore replaced with minimal version.
 - 2026-05-25 (V1) — Frame created. Three core skills built.

@@ -28,6 +28,8 @@ Accept a plain description. Do not ask follow-up questions unless a decision wou
 
 Produce the following sections.
 
+---
+
 ### Component List
 
 Every component visible on the screen:
@@ -35,46 +37,79 @@ Every component visible on the screen:
 - Purpose in one sentence
 - Any state variants (empty, loading, error, filled)
 
+---
+
 ### Layout Structure
 
+**Mobile-first.** Write base styles for the smallest screen. Use `md:` and `lg:` to enhance for larger viewports — never the reverse.
+
 - Flex or grid — specify which and why
-- Spacing values using the 4px scale only: 4, 8, 12, 16, 24, 32, 48, 64px
-- Mobile layout (single column unless justified otherwise)
-- Desktop layout (breakpoint: `md:` or `lg:`)
-- Named regions (e.g. sidebar, content area, header)
+- Spacing values using the 4px scale from the spec only: 4, 8, 12, 16, 24, 32, 48, 64px
+- Mobile base layout (default, no breakpoint prefix)
+- Desktop enhancement (use `md:` or `lg:` prefixes)
+- Named regions (e.g. sidebar, content area, header, footer)
+
+---
 
 ### Tailwind Class Decisions
 
-For each key element, provide the Tailwind classes. Reference colours from the design spec using arbitrary values:
+For each key element, provide the Tailwind classes. Reference colours from the design spec using arbitrary values — never use Tailwind colour names:
 - e.g. `bg-[#c17f24]` not `bg-amber-500`
 - e.g. `text-[#1a1a1a]` not `text-gray-900`
+- e.g. `border-[#e2e0db]` not `border-gray-200`
 
-Include: background, text, border, padding, border-radius, shadow (if any).
+Include for each element: background, text, border, padding, border-radius (from spec convention), shadow (from spec elevation system).
+
+---
 
 ### Interaction Notes
 
-- Hover states for interactive elements
-- Transitions: use `transition-all duration-200` as standard unless justified otherwise
-- Loading state: skeleton or spinner — specify which and why
-- Empty state: what the screen shows when there is no data
+- Hover states for all interactive elements
+- Transitions: use `transition-all duration-200` as standard unless the spec's feel justifies otherwise
+- Focus states: every interactive element must have a visible focus ring — `focus-visible:ring-2 focus-visible:ring-[primary] focus-visible:outline-none`
+- Loading state: skeleton or spinner — specify which and justify (skeleton for content-shaped loading, spinner for action-triggered loading)
+- Empty state: what the screen shows when there is no data — include copy and any illustration guidance
+- Error state: inline error messaging for forms, toast or banner for system errors
+
+---
+
+### Accessibility
+
+Every scaffold must include the following — these are not optional:
+
+- **Semantic HTML:** use `<nav>`, `<main>`, `<section>`, `<header>`, `<footer>`, `<article>`, `<button>` correctly. Never use a `<div>` where a semantic element exists.
+- **ARIA labels:** every icon-only button needs `aria-label`. Every form input needs a visible `<label>` or `aria-label`. Every modal needs `aria-modal="true"` and `aria-labelledby`.
+- **Tab order:** interactive elements must follow logical reading order. Do not use `tabIndex` values other than 0 and -1.
+- **Contrast:** verify that `text` on `background` and `text` on `surface` from the design spec meet WCAG AA minimum (4.5:1 for body text, 3:1 for large text / UI components). Flag any pair that likely fails.
+- **Alt text:** every `<img>` needs `alt`. Decorative images get `alt=""`. Meaningful images get descriptive alt text.
+- **Form errors:** associate error messages with their inputs using `aria-describedby`.
+
+Note: semantic HTML and ARIA labels directly improve search engine indexing — crawlers read the same structure as screen readers.
+
+---
 
 ### React/Next.js Scaffold
 
 Actual JSX ready to paste into a file. Requirements:
 - Use shadcn/ui component imports (`import { Button } from "@/components/ui/button"` etc.)
+- Use icon library declared in the spec (`import { IconName } from "lucide-react"` or equivalent)
 - Tailwind classes only — no inline styles
 - TypeScript-compatible (typed props where needed)
-- Annotate each section with a one-line comment naming the region
+- Semantic HTML elements throughout
+- Annotate each region with a one-line comment naming it
 
 ---
 
 ## Spec compliance check
 
 Before outputting, verify every decision against the design spec:
-- Colours match the colour system
+- Colours use the seven spec tokens as arbitrary Tailwind values
 - Fonts match the typography spec
-- Spacing uses the 4px scale
+- Spacing uses only values from the spec's spacing system
+- Border-radius follows the spec's three-level convention
+- Shadows follow the spec's elevation system
+- Icons use the declared library
 - Components match the chosen component library
 
-If any decision would contradict the spec, flag it explicitly and ask the user before proceeding:
+If any decision would contradict the spec, flag it explicitly and ask before proceeding:
 > "This would use [X] which contradicts the spec's [Y]. Should I proceed with the spec or override it here?"
