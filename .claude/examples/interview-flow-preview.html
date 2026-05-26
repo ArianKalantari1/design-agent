@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Flow — LinkedIn Content Agent</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-primary': '#2B6349',
+            'brand-bg': '#F8F7F4',
+            'brand-surface': '#FFFFFF',
+            'brand-text': '#1A1917',
+            'brand-muted': '#9B9690',
+            'brand-accent': '#C4722A',
+            'brand-border': '#E5E2DB',
+          },
+          fontFamily: {
+            'heading': ['Fraunces', 'Georgia', 'serif'],
+            'body': ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+          borderRadius: {
+            'interactive': '4px',
+            'container': '6px',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    h1, h2, h3, .font-heading { font-family: 'Fraunces', Georgia, serif; }
+    textarea::placeholder { color: #9B9690; }
+    textarea:focus { outline: none; box-shadow: 0 0 0 2px #2B6349; }
+    .btn-primary:hover { background-color: #245538; }
+    .btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px #F8F7F4, 0 0 0 4px #2B6349; }
+  </style>
+</head>
+<body class="bg-brand-bg min-h-screen">
+
+  <!-- Top nav — ambient, not prominent -->
+  <nav class="border-b border-brand-border bg-brand-surface">
+    <div class="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
+      <span class="font-heading text-brand-text text-lg font-semibold">Voiceprint</span>
+      <button class="text-brand-muted text-sm font-medium hover:text-brand-text transition-all duration-200" aria-label="Save and exit interview">
+        Save & exit
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main content — generous spacing, single focus -->
+  <main class="max-w-2xl mx-auto px-6 py-12 md:py-16">
+
+    <!-- Context bar: pillar + progress -->
+    <div class="flex items-center justify-between mb-12 md:mb-16">
+      <span class="inline-flex items-center px-3 py-1 rounded-full bg-brand-surface border border-brand-border text-brand-accent text-sm font-medium">
+        AI in Production
+      </span>
+      <span class="text-brand-muted text-sm">Question 3 of 5</span>
+    </div>
+
+    <!-- Previous answers — conversation thread, collapsed -->
+    <div class="space-y-6 mb-12 md:mb-16">
+      <div class="border-l-2 border-brand-border pl-4">
+        <p class="text-brand-muted text-sm mb-1">What happened?</p>
+        <p class="text-brand-text text-sm">We migrated our inference pipeline from batch to real-time and cut latency from 3 seconds to 200ms. The team was skeptical because we had to rewrite the feature store.</p>
+      </div>
+      <div class="border-l-2 border-brand-border pl-4">
+        <p class="text-brand-muted text-sm mb-1">What was the hard decision?</p>
+        <p class="text-brand-text text-sm">Choosing to throw away two months of work on the batch system. It was working. But "working" and "fast enough for the user" weren't the same thing.</p>
+      </div>
+    </div>
+
+    <!-- Current question — the focus -->
+    <div class="mb-8">
+      <h1 class="font-heading text-brand-text text-2xl md:text-3xl font-semibold leading-snug">
+        What did you learn that you wouldn't have predicted before this experience?
+      </h1>
+      <p class="text-brand-muted text-sm mt-3">
+        The surprising insight — the thing that makes this worth sharing.
+      </p>
+    </div>
+
+    <!-- Answer area -->
+    <div class="mb-8">
+      <textarea
+        class="w-full min-h-[160px] md:min-h-[200px] p-4 bg-brand-surface border border-brand-border rounded-interactive text-brand-text text-base leading-relaxed resize-y"
+        placeholder="Write your answer here. Speak naturally — the way you'd explain this to a colleague over coffee."
+        aria-label="Your answer to the current interview question"
+      ></textarea>
+    </div>
+
+    <!-- Action -->
+    <div class="flex items-center justify-between">
+      <button class="text-brand-muted text-sm font-medium hover:text-brand-text transition-all duration-200">
+        ← Previous
+      </button>
+      <button class="btn-primary bg-brand-primary text-white px-6 py-2.5 rounded-interactive text-sm font-medium transition-all duration-200 focus-visible:ring-2">
+        Continue
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Draft preview — subtle, emerging at the bottom -->
+  <aside class="border-t border-brand-border bg-brand-surface mt-16">
+    <div class="max-w-2xl mx-auto px-6 py-8">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-brand-muted text-sm font-medium uppercase tracking-wide">Draft forming</h2>
+        <span class="text-brand-muted text-xs">Based on your answers so far</span>
+      </div>
+      <div class="bg-brand-bg border border-brand-border rounded-container p-5">
+        <p class="text-brand-text text-sm leading-relaxed">
+          <span class="font-medium">We threw away two months of working code.</span> Not because it was broken — because "working" and "fast enough" aren't the same bar.
+        </p>
+        <p class="text-brand-text text-sm leading-relaxed mt-3">
+          Our inference pipeline did its job at 3 seconds. But when we watched real users wait…
+        </p>
+        <p class="text-brand-muted text-sm mt-3 italic">
+          [Waiting for your next answer to continue…]
+        </p>
+      </div>
+    </div>
+  </aside>
+
+</body>
+</html>
